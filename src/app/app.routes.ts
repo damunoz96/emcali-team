@@ -1,19 +1,22 @@
 import { Routes } from '@angular/router';
-import { HomePage } from '../modules/home/pages/home-page';
-import { PlayersPage } from '../modules/players/pages/players-page';
-import { GamesPage } from '../modules/games/pages/games-page';
-
+import { LayoutComponent } from './shared/components/layout/layout.component';
 export const routes: Routes = [
   {
     path: '',
-    component: HomePage
-  },
-  {
-    path: 'games',
-    component: GamesPage
-  },
-  {
-    path: 'players',
-    component: PlayersPage
-  },
-];
+    component: LayoutComponent,
+    children: [
+        {
+          path: '',
+          loadChildren: () => import('./modules/home/home.routes').then(m => m.HOME_ROUTES)
+        },
+        {
+          path: 'players',
+          loadChildren: () => import('./modules/players/players.routes').then(m => m.PLAYERS_ROUTES)
+        },
+        {
+          path: 'games',
+          loadChildren: () => import('./modules/games/games.routes').then(m => m.GAME_ROUTES)
+        }
+
+]
+  }];
